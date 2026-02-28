@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\AuthWithJWT_Net8.props" />
+</Project>

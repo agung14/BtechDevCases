@@ -11,6 +11,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import RegisterView from '@/views/RegisterView.vue'
+import TransferFundsView from '@/views/TransferFundsView.vue'
+import MainLayout from '@/layout/MainLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,8 +29,23 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
-      component: DashboardView,
+      component: MainLayout,
+      children: [
+        {
+          path: '',
+          component: DashboardView,
+        },
+      ],
+    },
+    {
+      path: '/transfer',
+      component: MainLayout,
+      children: [
+        {
+          path: '',
+          component: TransferFundsView,
+        },
+      ],
     },
   ],
 })

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "t419kK87pYALMhDiIambKFCZJql+tFBl5lhFNPcMjBw=",
+  "Source": "AuthWithJWT_Net8",
+  "BasePath": "_content/AuthWithJWT_Net8",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
