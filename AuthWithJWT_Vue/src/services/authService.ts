@@ -71,3 +71,8 @@ export const startAutoLogout = () => {
     window.location.href = '/login'
   }, timeLeft * 1000)
 }
+
+export const Logout = () => {
+  localStorage.removeItem('token')
+  return
+}

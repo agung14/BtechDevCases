@@ -1,6 +1,6 @@
 namespace AuthWithJWT_Net8.Models;
 
-public class TransferTransaction
+public class Transaction
 {
     public Guid TransactionId { get; set; }
     public Guid SenderId { get; set; }

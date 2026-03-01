@@ -9,14 +9,14 @@ public class AppDbContext : DbContext
         : base(options) { }
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<TransferTransaction> Transfers => Set<TransferTransaction>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
             .HasKey(u => u.UserId);
 
-        modelBuilder.Entity<TransferTransaction>()
+        modelBuilder.Entity<Transaction>()
             .HasKey(t => t.TransactionId);
     }
 }

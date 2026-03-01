@@ -65,6 +65,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { register } from '@/services/authService'
 
 const router = useRouter()
 const formRef = ref()
@@ -75,6 +76,7 @@ const confirmPassword = ref('')
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const loading = ref(false)
+const errorMessage = ref('')
 
 const emailRules = [
   (v: string) => !!v || 'Email is required',
@@ -93,18 +95,27 @@ const confirmPasswordRules = [
 
 const handleRegister = async () => {
   const { valid } = await formRef.value.validate()
-
   if (!valid) return
 
   loading.value = true
+  errorMessage.value = ''
 
-  setTimeout(() => {
+  try {
+    await register(email.value, password.value)
+
+    setTimeout(() => {
+      router.push({
+        path: '/login',
+        query: { registered: 'true' },
+      })
+    }, 1000)
+
+  } catch (error: any) {
+    errorMessage.value =
+      error.response?.data || 'Registration failed'
+  } finally {
     loading.value = false
-    router.push({
-      path: '/login',
-      query: { registered: 'true' },
-    })
-  }, 1000)
+  }
 }
 </script>
 

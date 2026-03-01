@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
 
 namespace AuthWithJWT_Net8.Controllers;
 
@@ -31,8 +32,10 @@ public class AuthController : ControllerBase
         var user = new User
         {
             UserId = Guid.NewGuid(),
+            Account = RandomNumberGenerator.GetInt32(10000000, 100000000).ToString(),
             Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            Balance = 1000000
         };
 
         _context.Users.Add(user);
@@ -54,8 +57,10 @@ public class AuthController : ControllerBase
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim("userId", user.UserId.ToString()),
+            new Claim("account", user.Account.ToString()),
+            new Claim("email", user.Email),
+            new Claim("balance", user.Balance.ToString())
         };
 
         var key = new SymmetricSecurityKey(
@@ -75,13 +80,7 @@ public class AuthController : ControllerBase
         });
     }
 
-    [Authorize]
-    [HttpPost("test")]
-    public async Task<IActionResult> Test()
-    {
-        return Ok("Hello World");
-    }
 }
 
-public record RegisterRequest(string FullName, string Email, string Password);
+public record RegisterRequest(string Email, string Password);
 public record LoginRequest(string Email, string Password);
