@@ -1,22 +1,24 @@
-<template>
-  <v-card class="pa-6" rounded="xl" elevation="6">
-    <h2 class="text-h5">
-      Hello {{ email }}, welcome back 👋
-    </h2>
-  </v-card>
-</template>
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getToken, parseJwt } from '@/services/authService'
 
 const email = ref('')
 
 onMounted(() => {
   const token = getToken()
+
   if (token) {
-    const payload = parseJwt(token)
-    email.value = payload?.email || ''
+    const decoded = parseJwt(token)
+
+    if (decoded && decoded.email) {
+      email.value = decoded.email
+    }
   }
 })
 </script>
+
+<template>
+  <div class="p-4">
+    <h2>Hello {{ email }}, welcome back 👋</h2>
+  </div>
+</template>

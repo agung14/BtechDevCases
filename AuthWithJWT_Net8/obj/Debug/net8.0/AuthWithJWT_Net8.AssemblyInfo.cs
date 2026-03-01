@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AuthWithJWT_Net8")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e48468def7cfe43c635ea838e98b39800f295e31")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d49c2bb7f6892428fb9d549a7d21faf17e9a1726")]
 [assembly: System.Reflection.AssemblyProductAttribute("AuthWithJWT_Net8")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AuthWithJWT_Net8")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

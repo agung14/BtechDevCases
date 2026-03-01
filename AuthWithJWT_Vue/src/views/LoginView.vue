@@ -74,6 +74,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
+import { login, startAutoLogout } from '@/services/authService'
 
 const router = useRouter()
 const route = useRoute()
@@ -116,20 +117,24 @@ const validateForm = (): boolean => {
   return isValid
 }
 
-const handleLogin = async (): Promise<void> => {
+
+const handleLogin = async (): Promise<void> => 
+{
   if (!validateForm()) return
 
   isLoading.value = true
   errorMessage.value = ''
 
-  setTimeout(() => {
-    if (email.value === 'admin@gmail.com' && password.value === '123456') {
-      router.push('/dashboard')
-    } else {
-      errorMessage.value = 'Invalid email or password'
-    }
+  try {
+    const response = await login(email.value, password.value)
+    var result = response
+    router.push('/dashboard')
+  } catch (error: any) {
+    errorMessage.value =
+      error.response?.data || 'Invalid email or password'
+  } finally {
     isLoading.value = false
-  }, 1200)
+  }
 }
 
 const goToRegister = (): void => {

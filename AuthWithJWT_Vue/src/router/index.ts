@@ -13,6 +13,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import TransferFundsView from '@/views/TransferFundsView.vue'
 import MainLayout from '@/layout/MainLayout.vue'
+import { isTokenExpired } from '@/services/authService'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +31,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: MainLayout,
+      meta: { requiresAuth: true }, // ✅ protect layout
       children: [
         {
           path: '',
@@ -40,6 +42,7 @@ const router = createRouter({
     {
       path: '/transfer',
       component: MainLayout,
+      meta: { requiresAuth: true }, // ✅ protect layout
       children: [
         {
           path: '',
@@ -51,3 +54,24 @@ const router = createRouter({
 })
 
 export default router
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+
+  if (to.meta.requiresAuth) {
+    if (!token) {
+      return next('/login')
+    }
+
+    if (isTokenExpired(token)) {
+      localStorage.removeItem('token')
+      return next('/login')
+    }
+  }
+
+  if ((to.path === '/login' || to.path === '/') && token) {
+    return next('/dashboard')
+  }
+
+  next()
+})
